@@ -2,6 +2,7 @@ const express = require('express')
 const helmet = require('helmet')
 const cors = require('cors')
 const session = require('express-session')
+const authRouter = require('./auth/auth-router')
 
 const KnexSessionStore = require('connect-session-knex')(session)
 const config = {
@@ -26,14 +27,14 @@ const config = {
     })
 }
 
-
-
 const server = express()
 
 server.use(session(config))
 server.use(helmet())
 server.use(cors())
 server.use(express.json())
+server.use('/api', authRouter)
+
 
 server.get('/', (_, res) => {
     res.json({api: "up"})
