@@ -34,10 +34,19 @@ const checkUsernameExists = async (req, res, next) => {
     } catch (err) {
       res.status(500).json('something failed tragically')
     }
-  }
+}
+
+const restricted = (req, res, next) => {
+    if (req.session && req.session.user) {
+      next()
+    } else {
+      res.status(401).json('unauthorized')
+    }
+}
 
 module.exports = {
     checkPayload,
     checkUsernameUnique,
-    checkUsernameExists
+    checkUsernameExists,
+    restricted
 }

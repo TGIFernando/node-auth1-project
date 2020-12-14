@@ -29,6 +29,13 @@ router.post('/login',  M.checkPayload, M.checkUsernameExists, (req, res) => {
     }
 })
 
+router.get('/users', M.restricted, (req, res) => {
+    Auth.find()
+        .then(users => {
+            res.status(200).json(users)
+        }) .catch (error => res.status(500).json(error.message))
+})
+
 
 
 module.exports = router
